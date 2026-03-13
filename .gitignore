@@ -11,3 +11,4 @@ out/
 packages/
 *.nuget.props
 *.nuget.targets
+*.pdf
