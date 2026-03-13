@@ -1,0 +1,13 @@
+bin/
+obj/
+out/
+.idea/
+.vscode/
+*.swp
+*.user
+*.userosscache
+*.sln.docuser
+.DS_Store
+packages/
+*.nuget.props
+*.nuget.targets
