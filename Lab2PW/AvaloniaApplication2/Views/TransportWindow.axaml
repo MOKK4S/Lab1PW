@@ -1,0 +1,17 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="AvaloniaApplication2.Views.TransportWindow"
+        Title="Wybierz transport"
+        Width="300" Height="250"
+        WindowStartupLocation="CenterOwner">
+    <StackPanel Margin="20" Spacing="10">
+        <TextBlock Text="Opcje transportu:" FontWeight="Bold" Margin="0,0,0,10"/>
+        <CheckBox Name="InPostCheck" Content="Paczkomat InPost (+15 zł)"/>
+        <CheckBox Name="CourierCheck" Content="Kurier (+20 zł)"/>
+        <CheckBox Name="SelfCheck" Content="Odbiór osobisty (0 zł)"/>
+        
+        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Name="OkBtn" Content="Zatwierdź"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
