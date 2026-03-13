@@ -3,18 +3,45 @@
         xmlns:vm="using:AvaloniaApplication2.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:models="using:AvaloniaApplication2.Models"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="400"
         x:Class="AvaloniaApplication2.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="AvaloniaApplication2">
+        Title="Aplikacja do zamawiania jedzenia">
 
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Grid ColumnDefinitions="*, Auto" Margin="20">
+        <StackPanel Grid.Column="0" Spacing="10">
+            <TextBlock Text="Koszyk" FontWeight="Bold" FontSize="18"/>
+            <ListBox ItemsSource="{Binding Cart}" Height="250">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="models:Product">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="{Binding Name}"/>
+                            <TextBlock Text="-" Foreground="Gray"/>
+                            <TextBlock Text="{Binding Price, StringFormat='{}{0:C}'}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Margin="20, 0, 0, 0" Spacing="15" Width="150" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Cena: " FontWeight="Bold" FontSize="16"/>
+                <TextBlock Text="{Binding TotalPrice, StringFormat='{}{0:C}'}" FontSize="16" Foreground="Green"/>
+            </StackPanel>
+
+            <Button Content="Wybierz" Command="{Binding OpenProductSelectionCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+            <Button Content="Transport" Command="{Binding OpenTransportSelectionCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+            <Button Content="Zapłać" Command="{Binding OpenPaymentSelectionCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Classes="accent"/>
+            
+            <Button Content="Wyczyść" Command="{Binding ClearCartCommand}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Margin="0, 30, 0, 0" Foreground="Red"/>
+        </StackPanel>
+    </Grid>
 
 </Window>
