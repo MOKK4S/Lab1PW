@@ -1,0 +1,22 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Lab3PW.ViewModels"
+        x:Class="Lab3PW.Views.AddEmployeeWindow"
+        x:DataType="vm:AddEmployeeViewModel"
+        x:CompileBindings="False"
+        Title="Dodaj pracownika" Width="300" Height="400" WindowStartupLocation="CenterOwner">
+    <StackPanel Margin="20" Spacing="15">
+        <TextBlock Text="Imię:" FontWeight="Bold"/>
+        <TextBox Text="{Binding FirstName}" Watermark="Wpisz imię..."/>
+        <TextBlock Text="Nazwisko:" FontWeight="Bold"/>
+        <TextBox Text="{Binding LastName}" Watermark="Wpisz nazwisko..."/>
+        <TextBlock Text="Wiek:" FontWeight="Bold"/>
+        <NumericUpDown Value="{Binding Age}" Minimum="18" Maximum="100"/>
+        <TextBlock Text="Stanowisko:" FontWeight="Bold"/>
+        <ComboBox ItemsSource="{Binding Positions}" SelectedItem="{Binding SelectedPosition}" HorizontalAlignment="Stretch"/>
+        <StackPanel Orientation="Horizontal" Spacing="10" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Zatwierdź" Command="{Binding SaveCommand}"/>
+            <Button Content="Anuluj" Command="{Binding CancelCommand}"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
