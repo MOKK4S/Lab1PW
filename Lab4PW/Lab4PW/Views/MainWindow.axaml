@@ -1,0 +1,36 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Lab4PW.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+        x:Class="Lab4PW.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        x:CompileBindings="False"
+        Title="Edytor Obrazów - Lab 4"
+        Width="1000" Height="700">
+
+    <Grid ColumnDefinitions="200, *" Margin="20">
+        <!-- Panel Kontrolny -->
+        <StackPanel Grid.Column="0" Spacing="10">
+            <TextBlock Text="Opcje" FontWeight="Bold" Margin="0,0,0,10"/>
+            
+            <StackPanel Orientation="Horizontal" Spacing="5">
+                <RadioButton Content="90" IsChecked="{Binding Is90Selected}"/>
+                <RadioButton Content="180" IsChecked="{Binding Is180Selected}"/>
+                <RadioButton Content="270" IsChecked="{Binding Is270Selected}"/>
+            </StackPanel>
+            
+            <Button Content="Rotate" Command="{Binding RotateCommand}" HorizontalAlignment="Stretch"/>
+            <Button Content="Invert Colors" Command="{Binding InvertColorsCommand}" HorizontalAlignment="Stretch"/>
+            <Button Content="Upside Down" Command="{Binding UpsideDownCommand}" HorizontalAlignment="Stretch"/>
+            <Button Content="Only Green" Command="{Binding OnlyGreenCommand}" HorizontalAlignment="Stretch"/>
+            
+            <Separator Height="20"/>
+            <Button Content="Load" Command="{Binding LoadImageCommand}" HorizontalAlignment="Stretch" Classes="accent"/>
+        </StackPanel>
+
+        <!-- Podgląd Obrazu -->
+        <Border Grid.Column="1" Margin="20,0,0,0" BorderBrush="Gray" BorderThickness="1">
+            <Image Source="{Binding ImageSource}" Stretch="Uniform"/>
+        </Border>
+    </Grid>
+</Window>
