@@ -1,14 +1,54 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:Lab6PW.ViewModels"
+        xmlns:conv="using:Lab6PW.Converters"
         x:Class="Lab6PW.Views.GameWindow"
         x:DataType="vm:GameViewModel"
-        Title="Gra">
-    <ItemsControl ItemsSource="{Binding Cells}">
-        <ItemsControl.ItemsPanel>
-            <ItemsPanelTemplate>
-                <UniformGrid Columns="{Binding Columns}" Rows="{Binding Rows}"/>
-            </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-    </ItemsControl>
+        Title="Złap Hyraxy!" Width="800" Height="900"
+        WindowStartupLocation="CenterOwner"
+        Background="#ECEFF1">
+    <Window.Resources>
+        <conv:AnimalToIconConverter x:Key="AnimalToIcon"/>
+    </Window.Resources>
+    <DockPanel Margin="30">
+        <Border DockPanel.Dock="Top" Background="White" CornerRadius="15" Padding="20" Margin="0,0,0,30">
+            <Grid ColumnDefinitions="*, *, *">
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="PUNKTY" FontSize="14" FontWeight="Bold" Foreground="#78909C"/>
+                    <TextBlock Text="{Binding Score}" FontSize="36" FontWeight="ExtraBold" Foreground="#2E7D32"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                    <TextBlock Text="CZAS" FontSize="14" FontWeight="Bold" Foreground="#78909C"/>
+                    <TextBlock Text="{Binding CurrentTime, StringFormat='\{0:F1\} s'}" FontSize="36" FontWeight="ExtraBold" Foreground="#1565C0"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2" HorizontalAlignment="Right">
+                    <TextBlock Text="STATUS" FontSize="14" FontWeight="Bold" Foreground="#78909C"/>
+                    <TextBlock Text="{Binding StatusMessage}" FontSize="18" FontWeight="Bold" Foreground="#C62828"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Panel>
+            <Viewbox IsVisible="{Binding !IsGameOver}" Stretch="Uniform">
+                <ItemsControl ItemsSource="{Binding Cells}" Width="500" Height="500">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate><UniformGrid Columns="{Binding Columns}" Rows="{Binding Rows}"/></ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Command="{Binding $parent[ItemsControl].((vm:GameViewModel)DataContext).CellClickedCommand}"
+                                    CommandParameter="{Binding}" Margin="4" Background="White" CornerRadius="8">
+                                <TextBlock Text="{Binding CurrentAnimal, Converter={StaticResource AnimalToIcon}}" FontSize="40" HorizontalAlignment="Center"/>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Viewbox>
+            <Border IsVisible="{Binding IsGameOver}" Background="#EE263238" CornerRadius="15" Padding="50">
+                <StackPanel VerticalAlignment="Center" Spacing="30">
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="White" FontSize="32" FontWeight="ExtraBold" TextAlignment="Center"/>
+                    <Button Content="POWRÓT" Click="CloseButton_Click" HorizontalAlignment="Center" Width="200" Height="50" Background="#2196F3" Foreground="White" CornerRadius="10"/>
+                </StackPanel>
+            </Border>
+        </Panel>
+    </DockPanel>
 </Window>
