@@ -1,0 +1,14 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Lab6PW.ViewModels"
+        x:Class="Lab6PW.Views.GameWindow"
+        x:DataType="vm:GameViewModel"
+        Title="Gra">
+    <ItemsControl ItemsSource="{Binding Cells}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <UniformGrid Columns="{Binding Columns}" Rows="{Binding Rows}"/>
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+    </ItemsControl>
+</Window>
