@@ -12,9 +12,20 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty] private int _hyraxCount = 1;
     [ObservableProperty] private int _raccoonCount = 2;
     [ObservableProperty] private int _crocodileCount = 0;
+
     [ObservableProperty] private bool _isSettingsVisible = false;
+
     public ObservableCollection<ScoreEntry> Scores { get; } = new();
 
-    [RelayCommand] private void ToggleSettings() => IsSettingsVisible = !IsSettingsVisible;
-    [RelayCommand] private void Exit() => System.Environment.Exit(0);
+    [RelayCommand]
+    private void ToggleSettings()
+    {
+        IsSettingsVisible = !IsSettingsVisible;
+    }
+
+    [RelayCommand]
+    private void Exit()
+    {
+        System.Environment.Exit(0);
+    }
 }
