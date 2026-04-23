@@ -12,3 +12,10 @@ packages/
 *.nuget.props
 *.nuget.targets
 *.pdf
+*.md
+*.pdf
+*.docx
+bin/
+obj/
+.idea/
+.DS_Store

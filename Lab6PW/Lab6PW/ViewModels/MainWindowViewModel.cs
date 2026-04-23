@@ -7,25 +7,20 @@ namespace Lab6PW.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-    [ObservableProperty] private int _boardX = 3;
-    [ObservableProperty] private int _boardY = 3;
-    [ObservableProperty] private int _hyraxCount = 1;
-    [ObservableProperty] private int _raccoonCount = 2;
-    [ObservableProperty] private int _crocodileCount = 0;
+    // NumericUpDown w Avalonii wymaga decimal, żeby bindowanie było stabilne
+    [ObservableProperty] private decimal _boardX = 3;
+    [ObservableProperty] private decimal _boardY = 3;
+    [ObservableProperty] private decimal _hyraxCount = 1;
+    [ObservableProperty] private decimal _raccoonCount = 2;
+    [ObservableProperty] private decimal _crocodileCount = 0;
 
     [ObservableProperty] private bool _isSettingsVisible = false;
 
     public ObservableCollection<ScoreEntry> Scores { get; } = new();
 
     [RelayCommand]
-    private void ToggleSettings()
-    {
-        IsSettingsVisible = !IsSettingsVisible;
-    }
+    private void ToggleSettings() => IsSettingsVisible = !IsSettingsVisible;
 
     [RelayCommand]
-    private void Exit()
-    {
-        System.Environment.Exit(0);
-    }
+    private void Exit() => System.Environment.Exit(0);
 }

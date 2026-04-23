@@ -18,11 +18,11 @@ public partial class MainWindow : Window
         {
             var settings = new GameSettings
             {
-                BoardWidth = vm.BoardX,
-                BoardHeight = vm.BoardY,
-                HyraxCount = vm.HyraxCount,
-                RaccoonCount = vm.RaccoonCount,
-                CrocodileCount = vm.CrocodileCount
+                BoardWidth = (int)vm.BoardX,
+                BoardHeight = (int)vm.BoardY,
+                HyraxCount = (int)vm.HyraxCount,
+                RaccoonCount = (int)vm.RaccoonCount,
+                CrocodileCount = (int)vm.CrocodileCount
             };
 
             var gameVM = new GameViewModel(settings);
@@ -32,7 +32,7 @@ public partial class MainWindow : Window
             {
                 if (success)
                 {
-                    vm.Scores.Add(new ScoreEntry { TimeInSeconds = time, Date = DateTime.Now });
+                    vm.Scores.Add(new ScoreEntry { TimeInSeconds = Math.Round(time, 2), Date = DateTime.Now });
                 }
             };
 
