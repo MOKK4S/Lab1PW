@@ -1,0 +1,79 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Lab7PW.ViewModels"
+        x:Class="Lab7PW.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Width="520" Height="620"
+        WindowStartupLocation="CenterScreen"
+        Title="Sekwencer DNA"
+        Background="#E8F5E9">
+
+    <StackPanel Margin="30" Spacing="14">
+
+        <TextBlock Text="SEKWENCER DNA"
+                   FontSize="32" FontWeight="Black"
+                   HorizontalAlignment="Center"
+                   Foreground="#1B5E20"
+                   Margin="0,0,0,10"/>
+
+        <TextBlock Text="Wprowadź sekwencję nukleotydową (A, C, G, T):"
+                   Foreground="#2E7D32" FontSize="13"/>
+
+        <TextBox Text="{Binding SequenceInput}"
+                 Watermark="np. ACGTACGTACGT..."
+                 FontFamily="Courier New"
+                 FontSize="14"
+                 Height="90"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 Background="White"
+                 Foreground="#212121"/>
+
+        <Button Content="ANALIZUJ"
+                Command="{Binding AnalyzeCommand}"
+                Width="180" Height="44"
+                HorizontalAlignment="Center"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Background="#43A047"
+                Foreground="White"
+                FontSize="16" FontWeight="Bold"/>
+
+        <TextBlock Text="{Binding StatusMessage}"
+                   Foreground="#558B2F"
+                   FontSize="12"
+                   HorizontalAlignment="Center"/>
+
+        <Border Background="White" CornerRadius="8" Padding="10" IsVisible="{Binding Results.Count}">
+            <StackPanel Spacing="4">
+                <Grid ColumnDefinitions="*,Auto" Margin="4,0">
+                    <TextBlock Text="Sekwencja" FontWeight="Bold" Foreground="#1B5E20" Grid.Column="0"/>
+                    <TextBlock Text="Liczba wystąpień" FontWeight="Bold" Foreground="#1B5E20" Grid.Column="1"/>
+                </Grid>
+                <Separator/>
+                <ListBox ItemsSource="{Binding Results}"
+                         MaxHeight="320"
+                         Background="Transparent"
+                         BorderThickness="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:KmerResult">
+                            <Grid ColumnDefinitions="*,Auto" Margin="2,2">
+                                <TextBlock Text="{Binding Kmer}"
+                                           FontFamily="Courier New"
+                                           FontSize="14"
+                                           Foreground="#212121"
+                                           Grid.Column="0"/>
+                                <TextBlock Text="{Binding Count}"
+                                           FontWeight="Bold"
+                                           Foreground="#2E7D32"
+                                           Grid.Column="1"
+                                           Margin="20,0,0,0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Border>
+
+    </StackPanel>
+</Window>
