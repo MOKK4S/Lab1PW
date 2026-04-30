@@ -14,6 +14,14 @@ public partial class MainWindowViewModel : ViewModelBase
     public ObservableCollection<KmerResult> Results { get; } = new();
 
     [RelayCommand]
+    private void Clear()
+    {
+        SequenceInput = string.Empty;
+        StatusMessage = string.Empty;
+        Results.Clear();
+    }
+
+    [RelayCommand]
     private void Analyze()
     {
         Results.Clear();

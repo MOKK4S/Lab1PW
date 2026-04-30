@@ -29,15 +29,24 @@
                  Background="White"
                  Foreground="#212121"/>
 
-        <Button Content="ANALIZUJ"
-                Command="{Binding AnalyzeCommand}"
-                Width="180" Height="44"
-                HorizontalAlignment="Center"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                Background="#43A047"
-                Foreground="White"
-                FontSize="16" FontWeight="Bold"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="12">
+            <Button Content="ANALIZUJ"
+                    Command="{Binding AnalyzeCommand}"
+                    Width="160" Height="44"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Background="#43A047"
+                    Foreground="White"
+                    FontSize="16" FontWeight="Bold"/>
+            <Button Content="WYCZYŚĆ"
+                    Command="{Binding ClearCommand}"
+                    Width="120" Height="44"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Background="#EF9A9A"
+                    Foreground="#212121"
+                    FontSize="14" FontWeight="Bold"/>
+        </StackPanel>
 
         <TextBlock Text="{Binding StatusMessage}"
                    Foreground="#558B2F"
