@@ -1,0 +1,172 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Lab9PW.ViewModels"
+        xmlns:models="using:Lab9PW.Models"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1100" d:DesignHeight="700"
+        x:Class="Lab9PW.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Wniosek o przeprowadzenie egzaminu komisyjnego"
+        Width="1100" Height="750"
+        WindowStartupLocation="CenterScreen">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+
+    <Grid ColumnDefinitions="*,320" Margin="10">
+
+        <!-- LEWA STRONA: formularz -->
+        <Border Grid.Column="0" Background="#F8F8F8" CornerRadius="6" Padding="16" Margin="0,0,8,0"
+                BorderBrush="#CCCCCC" BorderThickness="1">
+            <ScrollViewer>
+                <StackPanel Spacing="10">
+                    <TextBlock Text="Wniosek o przeprowadzenie egzaminu komisyjnego"
+                               FontSize="15" FontWeight="Bold" TextWrapping="Wrap"
+                               HorizontalAlignment="Center" Margin="0,0,0,12"/>
+
+                    <!-- 1. Miejscowość -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="1. Miejscowość"/>
+                        <TextBox Text="{Binding Miejscowosc}" Watermark="np. Poznań"/>
+                    </StackPanel>
+
+                    <!-- 2. Data złożenia -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="2. Data złożenia wniosku"/>
+                        <TextBox Text="{Binding DataZlozenia}" Watermark="DD.MM.RRRR"/>
+                    </StackPanel>
+
+                    <!-- 3. Imię i nazwisko -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="3. Imię i nazwisko studenta"/>
+                        <TextBox Text="{Binding ImieNazwisko}" Watermark="Jan Kowalski"/>
+                    </StackPanel>
+
+                    <!-- 4. Numer albumu -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="4. Numer albumu"/>
+                        <TextBox Text="{Binding NumerAlbumu}" Watermark="123456"/>
+                    </StackPanel>
+
+                    <!-- 5. Kierunek studiów -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="5. Kierunek studiów"/>
+                        <TextBox Text="{Binding KierunekStudiow}" Watermark="np. Informatyka"/>
+                    </StackPanel>
+
+                    <!-- 6. Specjalność -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="6. Specjalność"/>
+                        <TextBox Text="{Binding Specjalnosc}" Watermark="np. Inżynieria Oprogramowania"/>
+                    </StackPanel>
+
+                    <!-- 7. Rok studiów -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="7. Rok studiów"/>
+                        <TextBox Text="{Binding RokStudiow}" Watermark="np. III"/>
+                    </StackPanel>
+
+                    <!-- 8. Semestr -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="8. Semestr"/>
+                        <TextBox Text="{Binding Semestr}" Watermark="np. 5"/>
+                    </StackPanel>
+
+                    <!-- 9. Tryb studiów -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="9. Tryb studiów"/>
+                        <TextBox Text="{Binding TrybStudiow}" Watermark="stacjonarne / niestacjonarne"/>
+                    </StackPanel>
+
+                    <!-- 10. Nazwa przedmiotu -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="10. Nazwa przedmiotu"/>
+                        <TextBox Text="{Binding NazwaPrzedmiotu}" Watermark="np. Algorytmy i struktury danych"/>
+                    </StackPanel>
+
+                    <!-- 11. Imię i nazwisko egzaminatora -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="11. Imię i nazwisko egzaminatora"/>
+                        <TextBox Text="{Binding ImieNazwiskoEgzaminatora}" Watermark="dr inż. Jan Nowak"/>
+                    </StackPanel>
+
+                    <!-- 12. Termin I -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="12. Data egzaminu – termin I"/>
+                        <TextBox Text="{Binding TerminPierwszy}" Watermark="DD.MM.RRRR"/>
+                    </StackPanel>
+
+                    <!-- 13. Termin II -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="13. Data egzaminu – termin II (poprawkowy)"/>
+                        <TextBox Text="{Binding TerminDrugi}" Watermark="DD.MM.RRRR"/>
+                    </StackPanel>
+
+                    <!-- 14. Uzasadnienie -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="14. Uzasadnienie wniosku"/>
+                        <TextBox Text="{Binding UzasadnieniWniosku}"
+                                 Watermark="Podaj powód złożenia wniosku..."
+                                 TextWrapping="Wrap" Height="80" AcceptsReturn="True"/>
+                    </StackPanel>
+
+                    <!-- 15. Proponowany termin egzaminu komisyjnego -->
+                    <StackPanel Spacing="3">
+                        <TextBlock Text="15. Proponowany termin egzaminu komisyjnego"/>
+                        <TextBox Text="{Binding ProponowanyTermin}" Watermark="DD.MM.RRRR"/>
+                    </StackPanel>
+
+                    <!-- Przyciski -->
+                    <StackPanel Orientation="Horizontal" Spacing="10" Margin="0,12,0,0">
+                        <Button Content="Zapisz wniosek" Command="{Binding ZapiszWniosekCommand}"
+                                Background="#0078D4" Foreground="White" Padding="14,8"/>
+                        <Button Content="Wyczyść formularz" Command="{Binding WyczyscFormularzCommand}"
+                                Background="#D83B01" Foreground="White" Padding="14,8"/>
+                    </StackPanel>
+
+                    <!-- Status -->
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="#107C10"
+                               FontStyle="Italic" Margin="0,4,0,0"/>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <!-- PRAWA STRONA: poprzednie wpisy -->
+        <Border Grid.Column="1" Background="#F0F4F8" CornerRadius="6" Padding="12"
+                BorderBrush="#CCCCCC" BorderThickness="1">
+            <StackPanel Spacing="10">
+                <TextBlock Text="Poprzednie wnioski" FontWeight="Bold" FontSize="13"/>
+                <Button Content="Odśwież listę" Command="{Binding WczytajWnioskiCommand}"
+                        HorizontalAlignment="Stretch" Padding="8,6"/>
+                <Button Content="Wczytaj wybrany" Command="{Binding WczytajWybranyCommand}"
+                        HorizontalAlignment="Stretch" Padding="8,6"
+                        Background="#0078D4" Foreground="White"/>
+
+                <ListBox ItemsSource="{Binding Wnioski}"
+                         SelectedItem="{Binding WybranyWniosek}"
+                         Height="550">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:WniosekModel">
+                            <StackPanel Spacing="2" Margin="4">
+                                <TextBlock Text="{Binding ImieNazwisko}" FontWeight="SemiBold" FontSize="12"/>
+                                <TextBlock FontSize="11" Foreground="#555555">
+                                    <Run Text="Album: "/><Run Text="{Binding NumerAlbumu}"/>
+                                </TextBlock>
+                                <TextBlock FontSize="11" Foreground="#555555">
+                                    <Run Text="Przedmiot: "/><Run Text="{Binding NazwaPrzedmiotu}"/>
+                                </TextBlock>
+                                <TextBlock FontSize="11" Foreground="#888888">
+                                    <Run Text="Data: "/><Run Text="{Binding DataZlozenia}"/>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</Window>
