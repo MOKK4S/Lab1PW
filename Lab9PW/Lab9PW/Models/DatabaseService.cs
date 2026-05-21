@@ -9,7 +9,7 @@ public class DatabaseService
 
     public DatabaseService(string dbPath)
     {
-        _connectionString = $"Data Source={dbPath};Version=3;";
+        _connectionString = $"Data Source={dbPath}";
         InitializeDatabase();
     }
 
