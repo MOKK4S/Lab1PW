@@ -72,6 +72,56 @@ public partial class MainViewModel : ViewModelBase
         ChartModel = BuildChartModel();
     }
 
+    [RelayCommand]
+    private async Task ExportCsv()
+    {
+        if (StorageProvider is null || Sequences.Count == 0) return;
+
+        var file = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            Title = "Eksportuj do CSV",
+            SuggestedFileName = "analiza_fasta.csv",
+            FileTypeChoices = [new FilePickerFileType("CSV") { Patterns = ["*.csv"] }]
+        });
+
+        if (file is null) return;
+
+        try
+        {
+            ExportService.ExportCsv(Sequences.Select(s => (s, SequenceAnalyzer.Analyze(s))), file.Path.LocalPath);
+            StatusMessage = "Eksport CSV zakończony pomyślnie.";
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Błąd eksportu CSV: {ex.Message}";
+        }
+    }
+
+    [RelayCommand]
+    private async Task ExportJson()
+    {
+        if (StorageProvider is null || Sequences.Count == 0) return;
+
+        var file = await StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+        {
+            Title = "Eksportuj do JSON",
+            SuggestedFileName = "analiza_fasta.json",
+            FileTypeChoices = [new FilePickerFileType("JSON") { Patterns = ["*.json"] }]
+        });
+
+        if (file is null) return;
+
+        try
+        {
+            ExportService.ExportJson(Sequences.Select(s => (s, SequenceAnalyzer.Analyze(s))), file.Path.LocalPath);
+            StatusMessage = "Eksport JSON zakończony pomyślnie.";
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Błąd eksportu JSON: {ex.Message}";
+        }
+    }
+
     private PlotModel BuildChartModel()
     {
         var model = new PlotModel { Title = "Długości sekwencji" };
