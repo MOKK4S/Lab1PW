@@ -6,6 +6,9 @@ public static class SequenceAnalyzer
 {
     public static SequenceAnalysis Analyze(FastaSequence sequence)
     {
+        if (string.IsNullOrEmpty(sequence.Sequence))
+            return new SequenceAnalysis();
+
         var seq = sequence.Sequence.ToUpper();
         int a = 0, t = 0, g = 0, c = 0, other = 0;
 
