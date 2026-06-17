@@ -1,0 +1,179 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Lab10PW.ViewModels"
+        xmlns:models="using:Lab10PW.Models"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="750"
+        x:Class="Lab10PW.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="Analizator FASTA"
+        Width="1200" Height="750"
+        WindowStartupLocation="CenterScreen">
+
+    <Design.DataContext>
+        <vm:MainViewModel/>
+    </Design.DataContext>
+
+    <DockPanel>
+        <!-- Pasek narzędzi -->
+        <Border DockPanel.Dock="Top" Padding="14,10"
+                BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
+                BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <Button Content="Wczytaj FASTA"
+                        Command="{Binding LoadFilesCommand}"
+                        Background="#0078D4" Foreground="White" Padding="16,8"/>
+                <TextBlock Text="{Binding StatusMessage}"
+                           VerticalAlignment="Center" FontStyle="Italic" Opacity="0.75"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Główny układ -->
+        <Grid ColumnDefinitions="290,*" Margin="10" ColumnSpacing="10">
+
+            <!-- LEWA: lista sekwencji -->
+            <Border Grid.Column="0" CornerRadius="6" Padding="10"
+                    BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="1">
+                <DockPanel>
+                    <TextBlock DockPanel.Dock="Top" Text="Sekwencje"
+                               FontWeight="Bold" FontSize="13" Margin="4,0,4,8"/>
+                    <ListBox ItemsSource="{Binding Sequences}"
+                             SelectedItem="{Binding SelectedSequence}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate x:DataType="models:FastaSequence">
+                                <StackPanel Spacing="3" Margin="4">
+                                    <TextBlock Text="{Binding Id}"
+                                               FontWeight="SemiBold" FontSize="12"/>
+                                    <TextBlock Text="{Binding Description}"
+                                               FontSize="11" Opacity="0.65"
+                                               TextWrapping="Wrap" MaxLines="2"/>
+                                    <TextBlock FontSize="11" Opacity="0.55">
+                                        <Run Text="{Binding Length}"/>
+                                        <Run Text=" bp"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+            </Border>
+
+            <!-- PRAWA: szczegóły analizy -->
+            <Border Grid.Column="1" CornerRadius="6" Padding="18"
+                    BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="1">
+                <ScrollViewer>
+                    <StackPanel Spacing="18"
+                                IsVisible="{Binding Analysis, Converter={x:Static ObjectConverters.IsNotNull}}">
+
+                        <!-- Nagłówek -->
+                        <StackPanel Spacing="4">
+                            <TextBlock FontSize="18" FontWeight="Bold">
+                                <Run Text="{Binding SelectedSequence.Id}"/>
+                            </TextBlock>
+                            <TextBlock Text="{Binding SelectedSequence.Description}"
+                                       Opacity="0.65" TextWrapping="Wrap"/>
+                        </StackPanel>
+
+                        <!-- Karty statystyk -->
+                        <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="10">
+                            <Border Grid.Column="0" CornerRadius="8" Padding="16"
+                                    Background="#0078D4">
+                                <StackPanel>
+                                    <TextBlock Text="Zawartość GC"
+                                               Foreground="White" Opacity="0.85" FontSize="11"/>
+                                    <TextBlock Foreground="White" FontSize="24" FontWeight="Bold">
+                                        <Run Text="{Binding Analysis.GcContent, StringFormat='{}{0:F2}'}"/>
+                                        <Run Text="%"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Grid.Column="1" CornerRadius="8" Padding="16"
+                                    Background="#107C10">
+                                <StackPanel>
+                                    <TextBlock Text="Liczba kodonów"
+                                               Foreground="White" Opacity="0.85" FontSize="11"/>
+                                    <TextBlock Text="{Binding Analysis.CodonCount}"
+                                               Foreground="White" FontSize="24" FontWeight="Bold"/>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Grid.Column="2" CornerRadius="8" Padding="16"
+                                    Background="#5C2D91">
+                                <StackPanel>
+                                    <TextBlock Text="Długość"
+                                               Foreground="White" Opacity="0.85" FontSize="11"/>
+                                    <TextBlock Foreground="White" FontSize="24" FontWeight="Bold">
+                                        <Run Text="{Binding Analysis.Length}"/>
+                                        <Run Text=" bp"/>
+                                    </TextBlock>
+                                </StackPanel>
+                            </Border>
+
+                            <Border Grid.Column="3" CornerRadius="8" Padding="16"
+                                    Background="#D83B01">
+                                <StackPanel>
+                                    <TextBlock Text="Nieznane zasady"
+                                               Foreground="White" Opacity="0.85" FontSize="11"/>
+                                    <TextBlock Text="{Binding Analysis.CountOther}"
+                                               Foreground="White" FontSize="24" FontWeight="Bold"/>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <!-- Liczba zasad -->
+                        <Border CornerRadius="8" Padding="16"
+                                BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}"
+                                BorderThickness="1">
+                            <StackPanel Spacing="10">
+                                <TextBlock Text="Skład nukleotydowy"
+                                           FontWeight="SemiBold" FontSize="13"/>
+                                <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="12">
+                                    <Border Grid.Column="0" CornerRadius="6" Padding="12"
+                                            Background="#FFE4E1">
+                                        <StackPanel HorizontalAlignment="Center">
+                                            <TextBlock Text="A" HorizontalAlignment="Center"
+                                                       FontSize="20" FontWeight="Bold" Foreground="#C0392B"/>
+                                            <TextBlock Text="{Binding Analysis.CountA}"
+                                                       HorizontalAlignment="Center" FontSize="16"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Grid.Column="1" CornerRadius="6" Padding="12"
+                                            Background="#E8F5E9">
+                                        <StackPanel HorizontalAlignment="Center">
+                                            <TextBlock Text="T" HorizontalAlignment="Center"
+                                                       FontSize="20" FontWeight="Bold" Foreground="#107C10"/>
+                                            <TextBlock Text="{Binding Analysis.CountT}"
+                                                       HorizontalAlignment="Center" FontSize="16"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Grid.Column="2" CornerRadius="6" Padding="12"
+                                            Background="#E3F2FD">
+                                        <StackPanel HorizontalAlignment="Center">
+                                            <TextBlock Text="G" HorizontalAlignment="Center"
+                                                       FontSize="20" FontWeight="Bold" Foreground="#0078D4"/>
+                                            <TextBlock Text="{Binding Analysis.CountG}"
+                                                       HorizontalAlignment="Center" FontSize="16"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Grid.Column="3" CornerRadius="6" Padding="12"
+                                            Background="#F3E5F5">
+                                        <StackPanel HorizontalAlignment="Center">
+                                            <TextBlock Text="C" HorizontalAlignment="Center"
+                                                       FontSize="20" FontWeight="Bold" Foreground="#5C2D91"/>
+                                            <TextBlock Text="{Binding Analysis.CountC}"
+                                                       HorizontalAlignment="Center" FontSize="16"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+        </Grid>
+    </DockPanel>
+</Window>
