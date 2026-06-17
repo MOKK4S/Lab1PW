@@ -4,6 +4,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Lab10PW.Models;
 using Lab10PW.Services;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
 
 namespace Lab10PW.ViewModels;
 
@@ -18,6 +21,9 @@ public partial class MainViewModel : ViewModelBase
 
     [ObservableProperty]
     private string _statusMessage = "Wczytaj plik FASTA, aby rozpocząć.";
+
+    [ObservableProperty]
+    private PlotModel? _chartModel;
 
     public IStorageProvider? StorageProvider { get; set; }
 
@@ -63,5 +69,39 @@ public partial class MainViewModel : ViewModelBase
         }
 
         StatusMessage = $"Wczytano {Sequences.Count} sekwencji z {loaded} pliku/plików.";
+        ChartModel = BuildChartModel();
+    }
+
+    private PlotModel BuildChartModel()
+    {
+        var model = new PlotModel { Title = "Długości sekwencji" };
+
+        model.Axes.Add(new CategoryAxis
+        {
+            Position = AxisPosition.Bottom,
+            ItemsSource = Sequences.Select(s => s.Id).ToList(),
+            Angle = -30,
+            FontSize = 10
+        });
+        model.Axes.Add(new LinearAxis
+        {
+            Position = AxisPosition.Left,
+            Title = "Długość (bp)",
+            Minimum = 0
+        });
+
+        var series = new BarSeries
+        {
+            Title = "Długość",
+            FillColor = OxyColor.FromRgb(0, 120, 212),
+            StrokeThickness = 0
+        };
+
+        foreach (var seq in Sequences)
+            series.Items.Add(new BarItem(seq.Length));
+
+        model.Series.Add(series);
+        model.IsLegendVisible = false;
+        return model;
     }
 }

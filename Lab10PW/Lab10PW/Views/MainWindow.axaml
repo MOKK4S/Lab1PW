@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:Lab10PW.ViewModels"
         xmlns:models="using:Lab10PW.Models"
+        xmlns:oxy="http://oxyplot.org/avalonia"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="1200" d:DesignHeight="750"
@@ -59,8 +60,10 @@
                 </DockPanel>
             </Border>
 
-            <!-- PRAWA: szczegóły analizy -->
-            <Border Grid.Column="1" CornerRadius="6" Padding="18"
+            <!-- PRAWA: szczegóły + wykres -->
+            <Grid Grid.Column="1" RowDefinitions="Auto,*" RowSpacing="10">
+
+            <Border Grid.Row="0" CornerRadius="6" Padding="18"
                     BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="1">
                 <ScrollViewer>
                     <StackPanel Spacing="18"
@@ -173,6 +176,15 @@
                     </StackPanel>
                 </ScrollViewer>
             </Border>
+
+            <!-- Wykres słupkowy długości -->
+            <Border Grid.Row="1" CornerRadius="6" Padding="12"
+                    BorderBrush="{DynamicResource SystemControlForegroundBaseLowBrush}" BorderThickness="1"
+                    IsVisible="{Binding ChartModel, Converter={x:Static ObjectConverters.IsNotNull}}">
+                <oxy:PlotView Model="{Binding ChartModel}" Background="Transparent"/>
+            </Border>
+
+            </Grid>
 
         </Grid>
     </DockPanel>
